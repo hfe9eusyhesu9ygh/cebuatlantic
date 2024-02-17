@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cebu Atlantic Checkout</title>
+    <h1>Checkout</h1>
+    <style>
+        body {
+            background: linear-gradient(to right, aqua, blue);
+        }
+    </style>
+    
+    credit card number:(ex. xxxx-xxxx-xxxx-xxxx)<input type="text" style="display: block;">
+    country:<input type="text" style="display: block;">
+    city:<input type="text" style="display: block;">
+    province:<input type="text" style="display: block;">
+
+
+
+
+
+    <a href="checkoutconfirm.html">
+        <button>Checkout</button>
+    </a>
+    
+</head>
+<body>
+    <script>
+         var totalflightprice = parseFloat(localStorage.getItem("totalflightprice")) || 0;
+         document.getElementById("checkoutTotal").innerHTML = totalflightprice;
+    </script>
+</body>
+</html>

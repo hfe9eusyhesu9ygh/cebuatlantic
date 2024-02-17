@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, aqua, blue);
+        }
+
+        header {
+            background-color: #3498db;
+            color: #ffffff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #f4f4f4;
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 1px solid #ccc;
+        }
+
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: #3498db;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Logout</h1>
+    </header>
+
+    <nav>
+        <!-- You can include a navigation menu here if needed -->
+    </nav>
+
+    <main>
+        <p>You have been successfully logged out.</p>
+        <p>Click <a href="index.html">here</a> to log in again.</p>
+    </main>
+
+    <footer>
+        &copy; 2023 Cebu Atlantic Airways
+    </footer>
+    <script>
+        // Check if the "Remember Me" checkbox was checked
+        var rememberMeChecked = localStorage.getItem("rememberMeChecked");
+
+        if (rememberMeChecked === "true") {
+            // Clear stored login information
+            localStorage.removeItem("rememberedEmail");
+            localStorage.removeItem("rememberedPassword");
+            localStorage.removeItem("rememberMeChecked");
+        }
+
+        // Redirect to the login page after logout
+        window.location.href = "login.html";
+
+    </script>
+</body>
+
+</html>

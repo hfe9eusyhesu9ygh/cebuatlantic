@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discount!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #3498db;
+            color: #ffffff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        h1 {
+            color: #3498db;
+        }
+
+        .seat-sale-card {
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .discount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .country-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .country-item {
+            margin: 10px 0;
+        }
+
+        .book-now-button {
+            padding: 10px;
+            background-color: #3498db;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .book-now-button:hover {
+            background-color: #2980b9;
+        }
+
+        footer {
+            background-color: #3498db;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Seat Sale</h1>
+    </header>
+
+    <main> 
+        <div class="seat-sale-card">
+            <p class="discount">Special Discount - Limited Time Offer!</p>
+            <p>Enjoy exclusive discounts on flights to select countries. Book your tickets now!</p>
+
+            <ul class="country-list">
+                <li class="country-item">🌍 United States - 20% Off</li>
+                <li class="country-item">🌏 France - 15% Off</li>
+                <li class="country-item">🌎 Japan - 10% Off</li>
+                <!-- Add more countries and discounts as needed -->
+            </ul>
+
+            <button class="book-now-button" onclick="location.href='bookings.html'">Book Now</button>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2023 Cebu Atlantic Airways
+    </footer>
+</body>
+</html>

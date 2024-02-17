@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <a href="greeting.html">Home</a>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        h1 {
+            color: #3498db;
+        }
+
+        .profile-container {
+            max-width: 400px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>User Profile</h1>
+
+    <div class="profile-container">
+        <label for="name">Name:</label>
+        <p id="name">Not provided</p>
+
+        <label for="email">Email:</label>
+        <p id="email">Not provided</p>
+    </div>
+
+    <script>
+        // Get the name and email from the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const name = urlParams.get('username');
+        const email = urlParams.get('email');
+
+        // Display user information
+        document.getElementById("name").textContent = name ? name : "Not provided";
+        document.getElementById("email").textContent = email ? email : "Not provided";
+    </script>
+
+
+</body>
+
+</html>

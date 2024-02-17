@@ -1,0 +1,176 @@
+<!-- add-bags.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Bags and Seat</title>
+    
+    <style>
+        body {
+            background: linear-gradient(to right, yellow 50%, green 50%);
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background: linear-gradient(to right, green 50%, yellow 50%);
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .form-section {
+            background: linear-gradient(to right, #4CAF50, #45a049);
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #fff;
+            color: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Add Bags and Seat</h1>
+    </header>
+
+    <main>
+        <div class="form-section">
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="country" required>
+
+            <label for="extraSeats">Number of Extra Seats:</label>
+            <input type="number" id="extraSeats" name="extraSeats" min="0" value="0">
+
+            <label for="extraBags">Number of Extra Bags:</label>
+            <input type="number" id="extraBags" name="extraBags" min="0" value="0">
+
+            <label for="specificSeat">Specific Seat (optional):</label>
+            <input type="text" id="specificSeat" name="specificSeat">
+
+            <button onclick="addBagsAndSeat()">Submit</button>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2023 Cebu Indian Airways
+    </footer>
+
+    <script>
+        function addBagsAndSeat() {
+            var country = document.getElementById("country").value;
+            var extraSeats = parseInt(document.getElementById("extraSeats").value) || 0;
+            var extraBags = parseInt(document.getElementById("extraBags").value) || 0;
+            var specificSeat = document.getElementById("specificSeat").value;
+
+            // Retrieve booked flights and addons from localStorage
+            var bookedFlights = JSON.parse(localStorage.getItem("bookedFlights")) || [];
+            var addons = JSON.parse(localStorage.getItem("addons")) || { extraSeats: 0, extraBags: 0 };
+
+            // Generate or retrieve a seat
+            var selectedSeat = specificSeat || generateRandomSeat(bookedFlights.map(f => f.seat));
+
+            if (country && extraSeats >= 0 && extraBags >= 0) {
+                // Generate random date within the next 7 days
+                var currentDate = new Date();
+                var randomDays = Math.floor(Math.random() * 7) + 1;
+                currentDate.setDate(currentDate.getDate() + randomDays);
+                var formattedDate = currentDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+                // Generate random time between 1:00 PM and 9:00 PM
+                var randomHour = Math.floor(Math.random() * 9) + 1;
+                var randomMinute = Math.floor(Math.random() * 60);
+                var flightTime = randomHour + ":" + (randomMinute < 10 ? '0' : '') + randomMinute + " PM";
+
+                // Generate random gate number between 1 and 400
+                var gateNumber = Math.floor(Math.random() * 400) + 1;
+
+                // Generate random number of bags (between 1 and 5)
+                var bags = Math.floor(Math.random() * 5) + 1;
+
+                var newFlight = {
+                    country: country,
+                    date: formattedDate,
+                    time: flightTime,
+                    gate: gateNumber,
+                    bags: bags,
+                    seat: selectedSeat,
+                    extraSeats: extraSeats,
+                    extraBags: extraBags
+                };
+
+                // Store booked flight information in localStorage
+                bookedFlights.push(newFlight);
+                localStorage.setItem("bookedFlights", JSON.stringify(bookedFlights));
+
+                // Update addons information in localStorage
+                addons.extraSeats += extraSeats;
+                addons.extraBags += extraBags;
+                localStorage.setItem("addons", JSON.stringify(addons));
+
+                alert("Bags and seat added successfully!");
+            } else {
+                alert("Invalid input. Please enter valid information.");
+            }
+        }
+
+        function generateRandomSeat(occupiedSeats) {
+            var seats = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+            var rows = 300; // Assuming you have 20 rows
+
+            // Generate a random seat until finding one that is not occupied
+            var randomSeat;
+            do {
+                var randomRow = Math.floor(Math.random() * rows) + 1;
+                randomSeat = seats[Math.floor(Math.random() * seats.length)] + randomRow;
+            } while (occupiedSeats.includes(randomSeat));
+
+            return randomSeat;
+        }
+    </script>
+</body>
+</html>

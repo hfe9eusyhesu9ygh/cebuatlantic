@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Dashboard</title>
+    <!-- style -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, aqua, blue);
+            color: #333;
+            text-align: center;
+        }
+
+        header {
+            background-color: #3498db;
+            color: #ffffff;
+            padding: 10px;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        h1 {
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #3498db;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .places-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .place {
+            margin: 10px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .place:hover {
+            background-color: #f9f9f9;
+        }
+
+        footer {
+            background-color: #3498db;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .place:hover{
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1 style="color: white;">Travel Dashboard</h1>
+    </header>
+
+    <main>
+        <!--  action buttons -->
+        <div class="action-buttons">
+            <button onclick="location.href='login.html'">Login</button>
+            <button onclick="location.href='signup.html'">Sign Up</button>
+        </div>
+        <h2>Featured Places</h2>
+        <ul class="places-list">
+            <li class="place" onclick="location.href='login.html'">
+                <h3>New York</h3>
+                <p>Price: P50000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>Paris</h3>
+                <p>Price: P60000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>Tokyo</h3>
+                <p>Price: P75000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>Boracay</h3>
+                <p>Price: P30000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>Palawan</h3>
+                <p>Price: P45000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>Barcelona</h3>
+                <p>Price: P70000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>Seoul</h3>
+                <p>Price: P65000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>Rome</h3>
+                <p>Price: P80000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>Sydney</h3>
+                <p>Price: P55000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>Cairo</h3>
+                <p>Price: P40000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>Amsterdam</h3>
+                <p>Price: P72000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>Los Angeles</h3>
+                <p>Price: P58000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>Singapore</h3>
+                <p>Price: P68000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>Moscow</h3>
+                <p>Price: P77000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>Madrid</h3>
+                <p>Price: P69000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>Athens</h3>
+                <p>Price: P82000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>Bangkok</h3>
+                <p>Price: P63000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>San Francisco</h3>
+                <p>Price: P60000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>Istanbul</h3>
+                <p>Price: P71000</p>
+            </li>
+            <li class="place" onclick="location.href='login.html'">
+                <h3>Venice</h3>
+                <p>Price: P78000</p>
+            </li>
+            <!-- Add more places as needed -->
+        </ul>
+
+        <h2>Flight Info</h2>
+        <ul class="flights-list">
+            <li class="flight">
+                <h3>Flight Safety Rules</h3>
+                <p>1. Fasten your seatbelt during the entire flight.</p>
+                <p>2. Follow the instructions provided by the flight crew.</p>
+                <p>3. Use electronic devices only during designated times.</p>
+                <p>4. Familiarize yourself with the nearest emergency exits.</p>
+                <p>5. In case of emergency, remain calm and follow the crew's instructions.</p>
+            </li>
+            <!-- Add more flight info as needed -->
+        </ul>
+    </main>
+
+    <footer>
+        &copy; 2023 Cebu Atlantic Airways
+    </footer>
+
+</body>
+
+</html>

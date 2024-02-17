@@ -1,0 +1,264 @@
+<!-- edit-flight.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Flight</title>
+    
+    <style>
+        body {
+            background: linear-gradient(to right, blue, cyan);
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background: linear-gradient(to right, cyan, blue );
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .form-section {
+            background: linear-gradient(to right, blue, lightsteelblue);
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            max-width: 4000px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #fff;
+            color: blue;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: lightcyan;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .seat-map {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Adjust the number of columns as needed */
+            gap: 10px;
+            text-align: center;
+        }
+
+        .seat {
+            width: 60px;
+            height: 60px;
+            background-color: #ccc;
+            text-align: center;
+            line-height: 60px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2em;
+            border-radius: 5px;
+        }
+
+        .aisle {
+            width: 20px; /* Adjust the width of the aisle as needed */
+            height: 60px;
+            background-color: #fff;
+            visibility: hidden;
+        }
+
+        .seat.selected {
+            background-color: lightblue;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Edit Flight</h1>
+    </header>
+
+    <main>
+        <div class="form-section">
+            <label for="flightIndex">Select Flight:</label>
+            <select id="flightIndex"></select>
+
+            <label for="extraSeats">Number of Extra Seats:</label>
+            <input type="number" id="extraSeats" name="extraSeats" min="0" value="0">
+
+            <label for="extraBags">Number of Extra Bags:</label>
+            <input type="number" id="extraBags" name="extraBags" min="0" value="0">
+
+            <label for="specificSeat">Specific Seat (optional):</label>
+            <input type="text" id="specificSeat" name="specificSeat">
+
+            <div id="seatMap" class="seat-map"></div>
+            <button onclick="editFlight()">Submit</button>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2023 Cebu Atlantic Airways
+    </footer>
+
+    <script>
+        // Retrieve booked flights from localStorage
+        var bookedFlights = JSON.parse(localStorage.getItem("bookedFlights")) || [];
+
+        var flightIndexSelect = document.getElementById("flightIndex");
+        var extraSeatsInput = document.getElementById("extraSeats");
+        var extraBagsInput = document.getElementById("extraBags");
+        var specificSeatInput = document.getElementById("specificSeat");
+
+        // Populate the flight index select dropdown
+        bookedFlights.forEach(function (flight, index) {
+            var option = document.createElement("option");
+            option.value = index;
+            option.text = "Flight " + (index + 1) + ": " + flight.country + " - " + flight.time;
+            flightIndexSelect.appendChild(option);
+        });
+
+        // Initialize the seat map with 6 rows and 4 columns
+        var seatRows = 20;
+        var seatColumns = 15;
+
+        // Call generateSeatMap when the page loads to initialize the seat map
+        window.addEventListener("load", function () {
+            generateSeatMap();
+        });
+
+        function generateSeatMap() {
+            var seatMapContainer = document.getElementById("seatMap");
+            seatMapContainer.innerHTML = "";
+
+            // Variable to store the currently selected seat
+            var selectedSeat = null;
+
+            for (var row = 1; row <= seatRows; row++) {
+                for (var col = 1; col <= seatColumns; col++) {
+                    var seat = document.createElement("div");
+                    seat.classList.add("seat");
+                    seat.innerText = String.fromCharCode(64 + col) + row;
+
+                    // Add click event listener for seat selection
+                    seat.addEventListener("click", function () {
+                        // Remove "selected" class from the previously clicked seat
+                        if (selectedSeat) {
+                            selectedSeat.classList.remove("selected");
+                        }
+
+                        // Update the specific seat input value
+                        specificSeatInput.value = this.innerText;
+
+                        // Toggle the "selected" class for visual feedback
+                        this.classList.toggle("selected");
+
+                        // Update the currently selected seat
+                        selectedSeat = this;
+                    });
+
+                    seatMapContainer.appendChild(seat);
+
+                    // Add aisle after the first two columns
+                    if (col === 2) {
+                        var aisle = document.createElement("div");
+                        aisle.classList.add("aisle");
+                        seatMapContainer.appendChild(aisle);
+                    }
+                }
+
+                // Add a line break after each row
+                seatMapContainer.appendChild(document.createElement("br"));
+            }
+        }
+
+        function editFlight() {
+            var flightIndex = parseInt(flightIndexSelect.value);
+            var extraSeats = parseInt(extraSeatsInput.value) || 0;
+            var extraBags = parseInt(extraBagsInput.value) || 0;
+            var specificSeat = specificSeatInput.value;
+
+            if (!isNaN(flightIndex) && flightIndex >= 0 && flightIndex < bookedFlights.length) {
+                var selectedFlight = bookedFlights[flightIndex];
+
+                // Update the selected flight
+                selectedFlight.extraSeats = extraSeats;
+                selectedFlight.extraBags = extraBags;
+
+                // Assign the specific seat if provided
+                if (specificSeat) {
+                    selectedFlight.seat = specificSeat;
+                }
+
+                // Calculate the total price
+                var totalPrice = calculatePrice(extraSeats, extraBags);
+
+                // Update the total price in the selected flight
+                selectedFlight.totalPrice = totalPrice;
+
+                // Update the flight in the bookedFlights array
+                bookedFlights[flightIndex] = selectedFlight;
+
+                // Update the flight information in localStorage
+                localStorage.setItem("bookedFlights", JSON.stringify(bookedFlights));
+
+                alert("Flight details updated successfully!");
+            } else {
+                alert("Invalid flight selection. Please select a valid flight to edit.");
+            }
+        }
+
+        function calculatePrice(extraSeats, extraBags) {
+            // Existing calculatePrice function remains unchanged
+            // Define base price range
+            var basePriceMin = 50000;
+            var basePriceMax = 100000;
+
+            // Calculate additional cost per extra seat and extra bag
+            var seatCost = 2000; // Adjust this value based on your pricing strategy
+            var bagCost = 500; // Adjust this value based on your pricing strategy
+
+            // Calculate the total price
+            var totalPrice = Math.floor(
+                Math.random() * (basePriceMax - basePriceMin + 1) + basePriceMin
+            );
+
+            // Add additional cost for extra seats and bags
+            totalPrice += extraSeats * seatCost + extraBags * bagCost;
+
+            return totalPrice;
+        }
+    </script>
+</body>
+</html>

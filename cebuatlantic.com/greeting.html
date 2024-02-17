@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cebu Atlantic Dashboard</title>
+    
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #3498db;
+            color: #ffffff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: aquamarine;
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 1px solid #ccc;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        h1 {
+            color: #3498db;
+        }
+
+        .dashboard-card {
+            background-color:   lightblue;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        footer {
+            background-color: #3498db;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        body {
+            background-color: aqua;
+        }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <h1 style="color: white;">Cebu Atlantic Dashboard</h1>
+    </header>
+
+    <nav>
+        <a href="greeting.html">Home</a>
+        <a href="flights.html">Flights</a>
+        <a href="bookings.html">Bookings</a>
+        <a href="profile.html" id="profileLink">Profile</a>
+        <a href="logout.html">Logout</a>
+        <a href="info.html">Info</a>
+        <a href="aircraft.html">The Aircraft</a>
+        <a href="tour.html">Tour in the Plane!</a>
+        <a href="discount.html">Discount!</a> <!-- Added Seat Sale Link -->
+        
+        
+    </nav>
+ 
+    <main> 
+        <div class="dashboard-card">
+            <h2 id="greetingMessage"></h2>
+            <script>
+                // Get the username and email from the URL parameters
+                const urlParams = new URLSearchParams(window.location.search);
+                const username = urlParams.get('username');
+                const email = urlParams.get('email');
+            
+                // Display the greeting message
+                if (username) {
+                    document.getElementById("greetingMessage").innerHTML = "Welcome, " + username + "!";
+                } else {
+                    // If the username is not provided, display an error message
+                    document.getElementById("greetingMessage").innerHTML = "Error: Username not found.";
+                }
+            
+                // Construct the link to the profile page
+                function submitSurvey() {
+        const rating = document.querySelector('input[name="rating"]:checked');
+        const comments = document.getElementById('comments').value;
+
+        const surveyResponse = {
+            rating: rating ? rating.value : 'Not provided',
+            comments: comments
+        };
+
+        // Store the response in local storage
+        const responses = JSON.parse(localStorage.getItem('surveyResponses')) || [];
+        responses.push(surveyResponse);
+        localStorage.setItem('surveyResponses', JSON.stringify(responses));
+
+        // Optionally, you can display a thank you message or redirect the user after submitting the survey.
+        alert('Thank you for your feedback!');
+    }
+            </script>
+            
+            <p>This is your personalized dashboard. Explore the options in the navigation bar to manage your flights and bookings.</p>
+        </div>
+    </main>
+    <div class="survey-container">
+        <div class="survey-form" id="surveyForm">
+            <h3>We'd love to hear your feedback!</h3>
+            <p>Please rate your experience:</p>
+            
+            <label class="rating-label">
+                <input type="radio" name="rating" value="5"> 5 - Excellent
+            </label>
+            <label class="rating-label">
+                <input type="radio" name="rating" value="4"> 4 - Very Good
+            </label>
+            <label class="rating-label">
+                <input type="radio" name="rating" value="3"> 3 - Good
+            </label>
+            <label class="rating-label">
+                <input type="radio" name="rating" value="2"> 2 - Fair
+            </label>
+            <label class="rating-label">
+                <input type="radio" name="rating" value="1"> 1 - Poor
+            </label>
+
+            <textarea placeholder="Additional comments (optional)" rows="4" cols="50" id="comments" style="background-color: #3498db;"></textarea>
+
+            <button class="submit-button" onclick="submitSurvey()">Submit</button>
+        </div>
+    </div>
+    <footer>
+        &copy; 2023 Cebu Atlantic Airways
+    </footer>
+</body>
+</html>

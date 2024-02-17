@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to right, blue, lightblue);
+            color: white;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            background: linear-gradient(to right,   rgb(4, 0, 255), blue);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        #imagesContainer {
+            display: flex;
+            justify-content: space-between;
+            width: 300px;
+            margin-bottom: 20px;
+        }
+
+        #signupContainer {
+            width: 300px;
+            padding: 20px;
+            border-radius: 10px;
+            background: linear-gradient(to right, blue lightblue);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        h2 {
+            text-align: center;
+            color: #fff;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ddd;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(to right, cyan, lightcyan);
+            color: blue;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Welcome to <span>Cebu</span> Atlantic!</h1>
+
+
+
+<div id="signupContainer">
+    <h2>Sign Up</h2>
+    <label for="username">Username:</label>
+    <input type="text" id="username" placeholder="Enter your username">
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" placeholder="Enter your email">
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" placeholder="Enter your password">
+
+    <button id="signupBtn">Sign Up</button>
+</div>
+
+<script>
+    document.getElementById("signupBtn").onclick = function () {
+        let username = document.getElementById("username").value;
+        let email = document.getElementById("email").value;
+        let password = document.getElementById("password").value;
+
+        // Retrieve existing user data from localStorage
+        var existingUserData = JSON.parse(localStorage.getItem("userData")) || [];
+
+        // Check if the email is already registered
+        var existingUser = existingUserData.find(function(u) {
+            return u.email === email;
+        });
+
+        if (existingUser) {
+            alert("Email is already registered. Please use a different email.");
+        } else {
+            // Add the new user to the user data array
+            existingUserData.push({
+                username: username,
+                email: email,
+                password: password
+            });
+
+            // Save the updated user data to localStorage
+            localStorage.setItem("userData", JSON.stringify(existingUserData));
+
+            alert("Sign up successful! You can now log in.");
+            // Redirect to the login page or any other desired page
+            window.location.href = "index.html";
+        }
+    };
+</script>
+
+</body>
+</html>

@@ -1,0 +1,590 @@
+<!-- bookings.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookings</title>
+    <script src="common.js"></script>
+    <div id="weather"></div>
+
+    <!-- Style -->
+    <style>
+        body {
+            background: linear-gradient(to right, aquamarine, blue);
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background: linear-gradient(to right, blue, aquamarine);
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav {
+            background: linear-gradient(to right, blue, lightblue);
+            overflow: hidden;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: lightcyan;
+            color: black;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .dashboard-card {
+            background: linear-gradient(to right, blue, aquamarine) ;
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #fff;
+            color:  blue;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: aqua
+        }
+
+        footer {
+            background: linear-gradient(to right, lightblue, blue);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        #chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 300px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #chatbot-header {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        #chatbot-body {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        #chatbot-input {
+            border-top: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        #chatbot-input input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        #clock{
+            text-align: center;
+            top: 50px;
+            right: 20px;
+            position: fixed;
+            font-size: 25px;
+            color: blue;
+        }
+        #time{
+            text-align: center;
+            color: blue;
+            top: 25px;
+            right: 170px;
+            position: fixed;
+            font-size: 25px;
+
+        }
+        #weather{
+            text-align: center;
+            top: -11px;
+            left: 25px;
+            position: fixed;
+            
+            color: aqua;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 style="color: lightcyan">Cebu Atlantic Bookings</h1>
+    </header>
+    <!-- Nav Bar-->
+    <nav>   
+        <a href="greeting.html">Home</a>
+        <a href="flights.html">Flights</a>
+        <a href="bookings.html">Bookings</a>
+        <a href="profile.html" id="profileLink">Profile</a>
+        <a href="logout.html">Logout</a>
+        <a href="edit-flight.html">Add-Ons</a>
+        <a href="aircraft.html"> Inside the Airplane</a>
+        <a href="tour.html">Tour</a>
+        <a href="discount.html">Discount</a>
+    </nav>
+    <a href="checkout.html">
+        <button id="checkoutBtn">Proceed to Checkout</button>
+        
+    </a>
+
+    <!-- Dashboard Card -->
+    <main>
+        <div class="dashboard-card">
+            <h2>Your Bookings</h2>
+            <ul id="bookList"></ul>
+            <button id="bookBtn">Book A Flight</button>
+            <button onclick="cancelflight()">cancel booked flight </button>
+            
+        </div>
+        
+    </main>
+
+    <footer>
+        &copy; 2023 Cebu Atlantic Airways
+    </footer>
+    
+
+    <!-- Chatbot Container -->
+    <div id="chatbot-container">
+        <div id="chatbot-header">Chat with Cebu Atlantic</div>
+        <div id="chatbot-body"></div>
+        <div id="chatbot-input">
+            <input type="text" id="chat-input" placeholder="Type your question">
+        </div>
+    </div>
+    <p id="time">Time:</p>
+    <div id="clock"></div>
+    <div id="weather"></div>
+</body>
+
+
+
+
+
+
+
+
+<script>
+            // Retrieve the randomly selected items from localStorage
+            var randomlySelectedItems = JSON.parse(localStorage.getItem("randomlySelectedItems"));
+
+// Check if the array is not empty and then use it
+if (randomlySelectedItems && randomlySelectedItems.length > 0) {
+    // Use the randomlySelectedItems array as needed
+    console.log("Randomly selected items:", randomlySelectedItems);
+} else {
+    console.log("No randomly selected items found.");
+}
+       // Function to check if the selected flight is available
+       function isFlightAvailable(selectedFlight) {
+        // Retrieve the list of available flights (you can fetch this dynamically from a server)
+        var availableFlights = ["Flight 1", "Flight 2", "Flight 3"]; // Add more flights as needed
+
+        // Check if the selected flight is in the list of available flights
+        return availableFlights.includes(selectedFlight);
+    }
+        var bookList = document.getElementById("bookList");
+
+// Function to reset all booked flights and total flight price
+function resetBookedFlights() {
+    localStorage.removeItem("bookedFlights");
+    localStorage.removeItem("addons");
+    bookList.innerHTML = "";
+}
+
+function calculatePrice(basePrice, extraSeats, extraBags) {
+    // Calculate total price based on the base price, extra seats, and extra bags
+    var totalPrice = basePrice + extraSeats * 1000 + extraBags * 500;
+    return totalPrice;
+}
+
+function generateRandomSeat(occupiedSeats) {
+    // Generate a random seat from "A1" to "O20" that is not already occupied
+    var rows = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"];
+    var seats = [];
+
+    for (var i = 0; i < rows.length; i++) {
+        for (var j = 1; j <= 20; j++) {
+            seats.push(rows[i] + j);
+        }
+    }
+
+    var availableSeats = seats.filter((seat) => !occupiedSeats.includes(seat));
+
+    if (availableSeats.length > 0) {
+        var randomIndex = Math.floor(Math.random() * availableSeats.length);
+        return availableSeats[randomIndex];
+    } else {
+        // Handle the case where all seats are occupied
+        return "N/A";
+    }
+}
+
+function generateRandomTime() {
+    // Generate a random flight time (12-hour format)
+    var hours = Math.floor(Math.random() * 12);
+    var minutes = Math.floor(Math.random() * 60);
+    var period = hours >= 12 ? "PM" : "AM";
+
+    if (hours === 0) {
+        hours = 12;
+    } else if (hours > 12) {
+        hours -= 12;
+    }
+
+    return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${period}`;
+}
+
+// Load booked flights from localStorage when the page loads
+window.onload = function () {
+    displayBookedFlights();
+    updateNewFlightDetails();
+};
+
+function displayBookedFlights() {
+    var bookedFlights = JSON.parse(localStorage.getItem("bookedFlights")) || [];
+
+    bookedFlights.forEach(function (flight) {
+        var listItem = document.createElement("li");
+        var flightDetails =
+            "Country: " +
+            flight.country +
+            " | Date: " +
+            flight.formattedDate +
+            " | Time: " +
+            flight.time +
+            " | Seat: " +
+            flight.seat +
+            " | Extra Seats: " +
+            flight.extraSeats +
+            " | Extra Bags: " +
+            flight.extraBags +
+            " | Total Price: P" +
+            flight.totalPrice +
+            " | Gate: " + flight.gate;
+
+        listItem.innerHTML = flightDetails;
+        bookList.appendChild(listItem);
+    });
+}
+var newFlight;
+function updateNewFlightDetails() {
+    // Retrieve the latest booked flight details
+    var latestFlights = JSON.parse(localStorage.getItem("bookedFlights")) || [];
+    newFlight = latestFlights.length > 0 ? latestFlights[0] : null;
+}
+
+function getFlightDetails() {
+    updateNewFlightDetails(); // Ensure newFlight is up to date
+    return newFlight
+        ? "Your current flight is " +
+          newFlight.country +
+          " on " +
+          newFlight.formattedDate +
+          " at " +
+          newFlight.time +
+          ". Seat: " +
+          newFlight.seat +
+          ". Total Price: P" +
+          newFlight.totalPrice +
+          ". Gate: " +
+          newFlight.gate
+        : "You don't have a booked flight yet.";
+}
+document.getElementById("bookBtn").onclick = function () {
+    var basePrice = 50000; // Set your desired base price
+    var bookedFlights = JSON.parse(localStorage.getItem("bookedFlights")) || [];
+    var addons = JSON.parse(localStorage.getItem("addons")) || { extraSeats: 0, extraBags: 0 };
+
+    if (bookedFlights.length > 0) {
+        alert("You have already booked a flight. You cannot book more than one flight.");
+        return;
+    }
+
+    var country = prompt("Enter the country you want to go:");
+if (!randomlySelectedItems.includes(country)){
+    window.alert("That flight is currently not available. Please check the flights page for available flights.");
+    return;
+}
+
+    var rawDate = prompt("Enter the date of your flight (YYYY-MM-DD):");
+    var extraSeats = parseInt(prompt("Enter the number of extra seats for your flight:") || 0);
+    var extraBags = parseInt(prompt("Enter the number of extra bags:") || 0);
+
+    var selectedSeat = generateRandomSeat(bookedFlights.map((f) => f.seat));
+    console.log("Selected Seat:", selectedSeat);
+
+    if (country && extraSeats >= 0 && extraBags >= 0 && rawDate) {
+        var dateObj = new Date(rawDate);
+        var day = dateObj.getDate();
+        var month = dateObj.toLocaleString("default", { month: "long" });
+        var year = dateObj.getFullYear();
+        var formattedDate = day + " " + month + " " + year;
+
+        var listItem = document.createElement("li");
+        var flightTime = generateRandomTime();
+
+        var totalPrice = calculatePrice(basePrice, extraSeats, extraBags);
+        console.log("Total Price:", totalPrice);
+
+        var gateNumber = generateRandomGate(); // Generate the gate number only once
+        var flightDetails =
+            "Country: " +
+            country +
+            " | Date: " +
+            formattedDate +
+            " | Time: " +
+            flightTime +
+            " | Seat: " +
+            selectedSeat +
+            " | Extra Seats: " +
+            extraSeats +
+            " | Extra Bags: " +
+            extraBags +
+            " | Total Price: P" +
+            totalPrice +
+            " | Gate: " + gateNumber;
+
+        listItem.innerHTML = flightDetails;
+        bookList.appendChild(listItem);
+
+         newFlight = {
+            country: country,
+            formattedDate: formattedDate,
+            date: rawDate,
+            time: flightTime,
+            seat: selectedSeat,
+            extraSeats: extraSeats,
+            extraBags: extraBags,
+            totalPrice: totalPrice,
+            gate: gateNumber, // Store the gate number in the booked flight
+        };
+
+        bookedFlights.push(newFlight);
+        localStorage.setItem("bookedFlights", JSON.stringify(bookedFlights));
+
+        addons.extraSeats += extraSeats;
+        addons.extraBags += extraBags;
+        localStorage.setItem("addons", JSON.stringify(addons));
+
+        alert("Congratulations! You are now ready to board your flight.");
+    } else {
+        alert("Invalid input. Please enter valid information.");
+    }
+    updateNewFlightDetails();
+};
+
+
+function generateRandomGate() {
+    // Generate a random gate number (1 to 200)
+    return Math.floor(Math.random() * 200) + 1;
+}
+// Add a simple set of predefined responses
+var keywordResponses = {
+    "hi": "Hi there! How can I help you?",
+    "hello": "Hi there! How can I help you?",
+    "flight": getFlightDetails(),
+    "booking": "To make a booking, click the 'Book A Flight' button.",
+    "sex": "oh hell no.",
+    "nigger": "please no.",
+    "911": "calling police....",
+    "semen": "dont cum butthole",
+    "pizza": "this is an airline. no pizza for you.",
+    "mom": "hi mom",
+    "time": "(refresh to change time) " + new Date()
+    // Add more responses as needed
+};
+
+// Function to handle user input and provide responses
+function handleChatInput() {
+    var inputElement = document.getElementById("chat-input");
+    var userInput = inputElement.value.toLowerCase();
+    var chatbotBody = document.getElementById("chatbot-body");
+
+    var userMessage = document.createElement("div");
+    userMessage.innerHTML = "<strong>You:</strong> " + userInput;
+    chatbotBody.appendChild(userMessage);
+
+    inputElement.value = ""; // Clear the input field
+
+    var chatbotResponse = document.createElement("div");
+
+    // Check for specific keywords and provide corresponding responses
+    for (var keyword in keywordResponses) {
+        if (userInput.includes(keyword)) {
+            chatbotResponse.innerHTML = "<strong>Cebu Atlantic:</strong> " + keywordResponses[keyword];
+            break; // Stop checking once a keyword is found
+        }
+    }
+
+    // If no specific keyword is found, provide a generic response
+    if (!chatbotResponse.innerHTML) {
+        chatbotResponse.innerHTML = "<strong>Cebu Atlantic:</strong> I'm sorry, I didn't understand that question.";
+    }
+
+    chatbotBody.appendChild(chatbotResponse);
+
+    // Scroll to the bottom of the chat container
+    chatbotBody.scrollTop = chatbotBody.scrollHeight;
+}
+// Attach the function to handle input on pressing Enter
+document.getElementById("chat-input").addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        handleChatInput();
+    }
+});
+function cancelflight() {
+    var bookedFlights = JSON.parse(localStorage.getItem("bookedFlights")) || [];
+
+    // Clear the booked flights in the HTML
+    document.getElementById("bookList").innerHTML = "";
+
+    // Clear the booked flights in localStorage
+    localStorage.removeItem("bookedFlights");
+
+    // Notify the user
+    alert("Your booked flight has been canceled.");
+
+    // Optionally, you can perform additional tasks like updating other data.
+
+    // Update the chatbot with a cancellation message
+    var chatbotBody = document.getElementById("chatbot-body");
+    var cancelMessage = document.createElement("div");
+    cancelMessage.innerHTML = "<strong>Cebu Atlantic:</strong> Your booked flight has been canceled.";
+    chatbotBody.appendChild(cancelMessage);
+
+    // Scroll to the bottom of the chat container
+    chatbotBody.scrollTop = chatbotBody.scrollHeight;
+}
+
+
+function updateClock() {
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+
+            // Add leading zeros to minutes and seconds if they are less than 10
+            minutes = (minutes < 10 ? "0" : "") + minutes;
+            seconds = (seconds < 10 ? "0" : "") + seconds;
+
+            // Determine whether it's AM or PM
+            var meridiem = (hours < 12) ? "AM" : "PM";
+
+            // Convert hours from 24-hour to 12-hour format
+            hours = (hours > 12) ? hours - 12 : hours;
+            hours = (hours == 0) ? 12 : hours;
+
+            // Update the clock display
+            var clockDiv = document.getElementById("clock");
+            clockDiv.textContent = hours + ":" + minutes + ":" + seconds + " " + meridiem;
+        }
+
+        // Call updateClock function every second
+        setInterval(updateClock, 1000);
+
+        // Initial call to display clock immediately
+        updateClock();
+
+        function fetchWeather(latitude, longitude) {
+            // Replace 'YOUR_API_KEY' with your actual weather API key
+            const apiKey = '2351f6e6040b492889c114508241402';
+            const apiUrl = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${latitude},${longitude}`;
+
+            // Fetch weather data from the API
+            fetch(apiUrl)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Failed to fetch weather data');
+                    }
+                })
+                .then(data => {
+                    // Display the weather information on the page
+                    const weatherDiv = document.getElementById('weather');
+                    weatherDiv.innerHTML = `
+                        <h2>Weather in ${data.location.name}, ${data.location.country}</h2>
+                        <p>Temperature: ${data.current.temp_c}°C</p>
+                        <p>Condition: ${data.current.condition.text}</p>
+                    `;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Update the clock and fetch weather when the page loads
+        window.onload = function() {
+            updateClock(); // Display clock immediately
+
+            // Fetch user's location and then weather
+            navigator.geolocation.getCurrentPosition(position => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                fetchWeather(latitude, longitude);
+            }, error => {
+                console.error('Error getting location:', error);
+            });
+        };
+
+
+</script>
+
+
+
+</body>
+</html>

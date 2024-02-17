@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Responses (Owner View)</title>
+    
+    <style>
+        body {
+            background: linear-gradient(to right, cyan, blue);
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .response-card {
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background: linear-gradient(to right, blue, cyan);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Survey Responses (Owner View)</h1>
+    </header>
+
+        <div id="responsesContainer"></div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Retrieve survey responses from local storage
+            const responses = JSON.parse(localStorage.getItem('surveyResponses')) || [];
+
+            // Display responses
+            const responsesContainer = document.getElementById('responsesContainer');
+            responses.forEach(function (response, index) {
+                const responseCard = document.createElement('div');
+                responseCard.classList.add('response-card');
+                responseCard.innerHTML = `
+                    <p><strong>Response ${index + 1}</strong></p>
+                    <p><strong>Rating:</strong> ${response.rating}</p>
+                    <p><strong>Comments:</strong> ${response.comments}</p>
+                `;
+                responsesContainer.appendChild(responseCard);
+            });
+        });
+    </script>
+</body>
+</html>
